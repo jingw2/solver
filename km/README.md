@@ -13,4 +13,7 @@ pairs in bipartie graph. But KM is to find the best pairs to maximize the weight
 
 Hungarian algorithm can be implemented by DFS or BFS. Two methods were compared in different fully-connected
 bipartie graphs. The time spent distribution is shown below,
-![dfs vs bfs]()
+![KM](https://raw.githubusercontent.com/jingw2/solver/master/km/dfs%20vs%20bfs.png)
+
+It can be seen that dfs method is little better than bfs when the size is small, but bfs is obviously faster than
+dfs with the size growing.
