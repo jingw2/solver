@@ -40,33 +40,6 @@ import random
 import argparse
 import matplotlib.pyplot as plt
 
-parser = argparse.ArgumentParser(description=None)
-parser.add_argument('-left', type=int,
-                    default = 3)
-parser.add_argument('-right', type=int,
-                    default = 3)
-parser.add_argument('-method', type=str,
-                    default = 'dfs')
-args = parser.parse_args()
-
-## construct graph
-random.seed(123)
-# prev = [(10, 19, 0), (20, 30, 1), (8, 19, 2), (15, 25, 0)]
-# right = [(8, 19, 0, 1), (20, 30, 1, 1), (8, 19, 2, 1), (15, 26, 0, 1), (10, 19, 0, 2)]
-# numLeft = args.left
-# numRight = args.right
-# global graph
-# graph = np.zeros((numLeft, numRight))
-# # graph[0, 0] = 3 
-# # graph[0, 2] = 4
-# # graph[1, 0] = 2
-# # graph[1, 1] = 1
-# # graph[1, 2] = 3
-# # graph[2, 2] = 5
-
-# weightList = list(range(1, numLeft * numRight + 1))
-
-
 def dfs(left, graph):
 	'''
 	depth first search method
@@ -252,38 +225,6 @@ def solve(graph, verbose = 0, method = 'dfs'):
 		print('Maximum match weights: ', weight)
 
 	return match, weight
-
-if __name__ == '__main__':
-	from time import time
-
-	timeSpent = {'dfs': [], 'bfs': []}
-	sizeList = range(10, 301)
-	for m in ['dfs', 'bfs']:
-		for size in sizeList:
-			numLeft, numRight = size, size
-			graph = np.zeros((numLeft, numRight))
-			for i in range(numLeft):
-				for j in range(numRight):
-					graph[i, j] = random.choice(list(range(100)))
-			start = time()
-			solve(graph, verbose = 0, method = m)
-			end = time()
-			timeSpent[m].append(abs(end - start))
-			print('method {}, size {}'.format(m, size))
-
-	plt.figure()
-	# plt.subplot(211)
-	plt.plot(sizeList, timeSpent['dfs'], 'r-')
-	# plt.title('DFS')
-
-	# plt.subplot(212)
-	plt.plot(sizeList, timeSpent['bfs'], 'b-')
-	# plt.title('BFS')
-	plt.title('KM algorithm in different methods')
-	plt.xlabel('graph size')
-	plt.ylabel('time spent')
-	plt.legend(['DFS', 'BFS'])
-	plt.show()
 
 
 
