@@ -17,3 +17,18 @@ bipartie graphs. The time spent distribution is shown below,
 
 It can be seen that dfs method is little better than bfs when the size is small, but bfs is obviously faster than
 dfs with the size growing.
+
+Usage:
+```python
+import numpy as np
+import km
+
+# create a graph 
+graph = np.random.randn(3, 3)
+
+# solve using km solver
+match, totWeight = km.solve(graph, method = "bfs", verbose = 0)
+
+# match is the dictionary, key is the right index, value is 
+# the matched index, or -1, which is no match. 
+```
