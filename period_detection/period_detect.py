@@ -122,6 +122,6 @@ def solve(s, threshold, method = "dp"):
 	return result
 
 
-s = "abababac"
+s = "ababac"
 if __name__ == '__main__':
 	print(solve(s, 0.7))
