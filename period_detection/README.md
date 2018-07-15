@@ -13,11 +13,14 @@ For period 1, the element is "a". The origin and destination of ERP is (n-2, n-1
 For period 2, the element is "ab". The origin and destination of ERP is (n-3, n-1) and (0, 2). The route with minimum distance is shown by arrows in the graph. The value is 1. 
 
 In general, for period p, we need to find the minimum route from (n-p-1, n-1) to (0, p). The confidence can be calculated in terms of minimum ERP, 
-![equation](http://latex.codecogs.com/gif.latex?)
 
-Reference link: 
+![equation](https://github.com/jingw2/solver/blob/master/period_detection/confidence.gif)
 
-* https://wenku.baidu.com/view/8ad300afb8f67c1cfad6b87a.html
+
+Solver Arguments:
+* s (list, tuple or string)
+* threshold (confidence threshold)
+* method (recursion or dp), for big length of s, please use dp. By default, it is dp.
 
 ```Python
 import period_detect
@@ -27,3 +30,8 @@ result = period_detect.solve(s, threshold = 0.7, method = "dp")
 
 ## result = {"ab" : 0.75}
 ```
+
+
+Reference link: 
+
+* https://wenku.baidu.com/view/8ad300afb8f67c1cfad6b87a.html
