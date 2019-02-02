@@ -9,6 +9,23 @@ Size constrained clustering can be treated as an optimization problem, such that
 
 Details in deterministic annealing can be referred in paper. 
 
+Usage:
+```python
+import size_constrained_clustering
+import numpy as np
+
+# initialization
+n_points = 1000
+X = np.random.rand(n_points, 2)
+demands = np.ones((n_points, 1))
+n_clusters = 4
+n_iters = 100
+max_size = [n_points / n_clusters] * n_clusters
+
+da = size_constrained_clustering.DeterministicAnnealing(n_clusters, max_size, n_iters, "l2")
+labels, centers = da.fit(X, demands)
+```
+
 ### Reference
 * [Clustering with Capacity and Size Constraints: A Deterministic
 Approach](http://web.eecs.umich.edu/~mayankb/docs/ClusterCap.pdf)
