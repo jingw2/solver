@@ -40,7 +40,7 @@ import random
 import argparse
 import matplotlib.pyplot as plt
 
-def dfs(left, graph):
+def dfs(left, graph, is_constraint_on_weight):
 	'''
 	depth first search method
 
@@ -56,29 +56,32 @@ def dfs(left, graph):
 	visitedLeft[left] = True
 
 	for right in range(numRight):
-
+		if is_constraint_on_weight:
+			if graph[left, right] == 0: continue
 		if visitedRight[right]: continue # every round, every right can only be retrieved once
 		gap = leftExpect[left] + rightExpect[right] - graph[left, right]
 
 		if gap == 0: # match expectation
 			visitedRight[right] = True
 
-			if match[right] == -1 or dfs(match[right], graph): # if right has no match or the matched left can find other rights
+			# if right has no match or the matched left can find other rights
+			if match[right] == -1 or dfs(match[right], graph, is_constraint_on_weight): 
 				match[right] = left
 				return True
 
-		else:
+		else: # to accelerate
 			slack[right] = min(slack[right], gap)
 
 	return False
 
-def bfs(left, graph):
+def bfs(left, graph, is_constraint_on_weight):
 	'''
 	breath first search method
 
 	Args:
 	* left (int): the left element index
 	* graph (array like): graph to solve
+	* is_constraint_on_weight (boolean)
 
 	Return:
 	* boolean : if match is found, return True, otherwise False
@@ -94,7 +97,9 @@ def bfs(left, graph):
 		firstEle = queue[0]
 		for right in range(numRight):
 			if flag: break
-			if visitedRight[right] or graph[firstEle, right] == 0: continue
+			if is_constraint_on_weight:
+				if graph[firstEle, right] == 0: continue
+			if visitedRight[right]: continue
 			gap = leftExpect[firstEle] + rightExpect[right] - graph[firstEle, right]
 		
 			if gap == 0:
@@ -133,7 +138,7 @@ def bfs(left, graph):
 				slack[right] = min(slack[right], gap)
 		return False
 		
-def solve(graph, verbose = 0, method = 'dfs'):
+def solve(graph, verbose = 0, method = 'dfs', is_constraint_on_weight=True):
 
 	'''
 	KM algorithm solver
@@ -144,6 +149,8 @@ def solve(graph, verbose = 0, method = 'dfs'):
 		every column represents the right vertices of bipartie graph
 	* verbose (boolean): 1 to show print
 	* method: (str): which method to use, dfs or bfs
+	* is_constraint_on_weight (boolean): 
+		want to constrain on weight, impossible match on weight = 0 edge
 
 	Return:
 	* match (dict): key is the right element, if value = -1, the right has no match
@@ -157,8 +164,8 @@ def solve(graph, verbose = 0, method = 'dfs'):
 	## check graph
 	global numLeft, numRight
 	numLeft, numRight = graph.shape
-	if numLeft < numRight:
-		raise Exception('Please check the shape graph: {}! Ncols should bigger than nrows.'.format(graph,shape))
+	if numLeft > numRight:
+		raise Exception('Please check the shape graph: {}! Ncols should bigger than nrows.'.format(graph.shape))
 
 	## initialize
 	global leftExpect, rightExpect, visitedLeft, visitedRight, match, slack, matchLeft, prev, queue
@@ -181,12 +188,12 @@ def solve(graph, verbose = 0, method = 'dfs'):
 			visitedRight = {b : False for b in range(numRight)} 
 
 			if method == 'dfs':
-				if dfs(lix, graph):
+				if dfs(lix, graph, is_constraint_on_weight):
 					break # find match
 			else:
 				if matchLeft[lix] == -1:
 					while len(queue) != 0: queue.pop()
-					if bfs(lix, graph):
+					if bfs(lix, graph, is_constraint_on_weight):
 						break # find match
 			
 			##### cannot find match
