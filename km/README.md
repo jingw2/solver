@@ -27,8 +27,17 @@ import km
 graph = np.random.randn(3, 3)
 
 # solve using km solver
-match, totWeight = km.solve(graph, method = "bfs", verbose = 0)
+match, totWeight = km.solve(graph, method = "bfs", verbose = 0, is_constraint_on_weight=True)
 
 # match is the dictionary, key is the right index, value is 
-# the matched index, or -1, which is no match. 
+# the matched left index, or -1, which is no match. 
+
+# Argument:
+# * graph (np.array like): 
+#   every row represents the left vertices of bipartie graph
+#   every column represents the right vertices of bipartie graph
+# * verbose (boolean): 1 to show print
+# * method: (str): which method to use, dfs or bfs
+# * is_constraint_on_weight (boolean): 
+#   want to constrain on weight, impossible match on weight = 0 edge
 ```
