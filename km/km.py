@@ -234,8 +234,8 @@ def solve(graph, verbose = 0, method = 'dfs', is_constraint_on_weight=True):
 	for right, left in match.items():
 		if verbose:
 			print('left {}, right {}'.format(left, right))
-		weight += graph[left, right]
 		if left != -1:
+			weight += graph[left, right]
 			if is_transpose: # exchange the order
 				out[right] = left
 			else:
