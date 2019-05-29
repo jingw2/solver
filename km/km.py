@@ -30,6 +30,9 @@ for i in range(numLeft):
 
 ## solve
 match, weight = km.solve(graph, verbose = 0, method = 'bfs')
+
+## Note that, match is a dictionary, with key the index of left
+value is the index of matched right
 #################################################
 '''
 
@@ -164,8 +167,12 @@ def solve(graph, verbose = 0, method = 'dfs', is_constraint_on_weight=True):
 	## check graph
 	global numLeft, numRight
 	numLeft, numRight = graph.shape
+	is_transpose = False
 	if numLeft > numRight:
-		raise Exception('Please check the shape graph: {}! Ncols should bigger than nrows.'.format(graph.shape))
+		print("Left is greater than right, transpose graph matrix")
+		graph = graph.T
+		numLeft, numRight = graph.shape
+		is_transpose = True
 
 	## initialize
 	global leftExpect, rightExpect, visitedLeft, visitedRight, match, slack, matchLeft, prev, queue
@@ -223,15 +230,21 @@ def solve(graph, verbose = 0, method = 'dfs', is_constraint_on_weight=True):
 
 	## output maximum weights
 	weight = 0
+	out = {}
 	for right, left in match.items():
 		if verbose:
 			print('left {}, right {}'.format(left, right))
 		weight += graph[left, right]
+		if left != -1:
+			if is_transpose: # exchange the order
+				out[right] = left
+			else:
+				out[left] = right
 
 	if verbose:
 		print('Maximum match weights: ', weight)
 
-	return match, weight
+	return out, weight
 
 
 
