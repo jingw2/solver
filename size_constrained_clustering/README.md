@@ -30,3 +30,12 @@ labels, centers = da.fit(X, demands)
 * [Clustering with Capacity and Size Constraints: A Deterministic
 Approach](http://web.eecs.umich.edu/~mayankb/docs/ClusterCap.pdf)
 * [Deterministic Annealing, Clustering and Optimization](https://thesis.library.caltech.edu/2858/1/Rose_k_1991.pdf)
+* [Shrinkage Clustering](https://www.researchgate.net/publication/322668506_Shrinkage_Clustering_A_fast_and_size-constrained_clustering_algorithm_for_biomedical_applications)
+* [Clustering with size constraints](https://www.researchgate.net/publication/268292668_Clustering_with_Size_Constraints)
+* [Data Clustering with Cluster Size Constraints Using a Modified k-means Algorithm](https://core.ac.uk/download/pdf/61217069.pdf)
+
+### TO DO
+[ ] Shrinkage Clustering
+[ ] Clustering with equal size
+[ ] Modified Kmeans clustering
+[ ] Size constraint API
