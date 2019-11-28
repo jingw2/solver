@@ -35,7 +35,7 @@ Approach](http://web.eecs.umich.edu/~mayankb/docs/ClusterCap.pdf)
 * [Data Clustering with Cluster Size Constraints Using a Modified k-means Algorithm](https://core.ac.uk/download/pdf/61217069.pdf)
 
 ### TO DO
-[ ] Shrinkage Clustering
-[ ] Clustering with equal size
-[ ] Modified Kmeans clustering
-[ ] Size constraint API
+* [ ] Shrinkage Clustering
+* [ ] Clustering with equal size
+* [ ] Modified Kmeans clustering
+* [ ] Size constraint API
