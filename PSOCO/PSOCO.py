@@ -104,10 +104,14 @@ class PSOCO:
             #                 self.c2*random.random()*(self.gbest - self.X[i])  
             #     self.X[i] = self.X[i] + self.V[i] 
 
+            rand1 = np.random.random(size=(self.particle_size, self.sol_size))
+            rand2 = np.random.random(size=(self.particle_size, self.sol_size))
             # 群体更新
-            self.V = self.kai * (self.w*self.V + self.c1*random.random()*(self.pbest - self.X) + \
-                        self.c2*random.random()*(self.gbest - self.X))
-            self.V = np.minimum(self.vmax, self.V)
+            self.V = self.kai * (self.w*self.V + self.c1*rand1*(self.pbest - self.X) + \
+                        self.c2*rand2*(self.gbest - self.X))
+            self.V[self.V > self.vmax] = self.vmax
+            self.V[self.V < -self.vmax] = -self.vmax
+            
             self.X = self.X + self.V  
             fitness.append(self.fit)  
             self.w -= w_step
