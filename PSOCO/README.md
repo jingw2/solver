@@ -38,7 +38,7 @@ constraints = [constraints1, constraints2, constraints3]
 num_runs = 10
 for _ in range(num_runs):
     psoco = PSOCO(sol_size=2, fitness=objective, constraints=constraints)
-    psoco.init_Population()
+    psoco.init_Population(low=0, high=1)
     psoco.solve()
     # best solutions
     x = psoco.gbest.reshape((1, -1))
