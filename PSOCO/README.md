@@ -10,7 +10,7 @@
 |constraints|a list of functions|null|
 
 ### Usage
-![equation]("https://latex.codecogs.com/svg.latex?\begin{align*}&space;\min&space;\&space;f(x)&space;&=&space;(x_1&space;-&space;2)^2&space;&plus;&space;(x_2&space;-&space;1)^2&space;\\&space;s.t.&space;\&space;x_1&space;&=&space;x_2&space;-&space;1&space;\\&space;x_1^2/4&&plus;x_2^2-1&space;\leq&space;0&space;\end{align*}")
+![equation](https://latex.codecogs.com/svg.latex?\begin{align*}&space;\min&space;\&space;f(x)&space;&=&space;(x_1&space;-&space;2)^2&space;&plus;&space;(x_2&space;-&space;1)^2&space;\\&space;s.t.&space;\&space;x_1&space;&=&space;x_2&space;-&space;1&space;\\&space;x_1^2/4&&plus;x_2^2-1&space;\leq&space;0&space;\end{align*})
 
 ```python
 def objective(x):
