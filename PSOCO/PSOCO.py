@@ -61,9 +61,9 @@ class PSOCO:
         obj = obj.reshape((-1, 1))
         return obj + self.h(k) * self.H(x)
     
-    def init_Population(self):  
+    def init_Population(self, low=0, high=1):  
         '''初始化粒子'''
-        self.X = np.random.uniform(size=(self.particle_size, self.sol_size))
+        self.X = np.random.uniform(size=(self.particle_size, self.sol_size), low=low, high=high)
         self.V = np.random.uniform(size=(self.particle_size, self.sol_size))
         self.pbest = self.X 
         self.p_fit = self.fitness(self.X, 1)
