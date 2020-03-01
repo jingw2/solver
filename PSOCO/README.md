@@ -12,7 +12,8 @@
 ### Usage
 ![equation](https://latex.codecogs.com/svg.latex?%5Cbegin%7Balign*%7D%20%5Cmin%20%5C%20f%28x%29%20%26%3D%20%28x_1%20-%202%29%5E2%20&plus;%20%28x_2%20-%201%29%5E2%20%5C%5C%20s.t.%20%5C%20x_1%20%26%3D%20x_2%20-%201%20%5C%5C%20x_1%5E2/4%26&plus;x_2%5E2-1%20%5Cleq%200%20%5Cend%7Balign*%7D)
 
-Transform constraints, it becomes: \\
+Transform constraints, it becomes: 
+
 ![equation](https://latex.codecogs.com/svg.latex?%5Cbegin%7Balign*%7D%20%5Cmin%20%5C%20f%28x%29%20%26%3D%20%28x_1%20-%202%29%5E2%20&plus;%20%28x_2%20-%201%29%5E2%20%5C%5C%20s.t.%20%5C%20x_1%20-%20%26x_2%20&plus;%201%20%5Cleq%200%20%5C%5C%20-x_1%20&plus;%20%26x_2%20-%201%20%5Cleq%200%20%5C%5C%20x_1%5E2/4%26&plus;x_2%5E2-1%20%5Cleq%200%20%5Cend%7Balign*%7D)
 
 ```python
