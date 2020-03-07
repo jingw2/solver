@@ -18,6 +18,7 @@ Transform constraints, it becomes:
 
 Note: In order to faster search optimal solutions, please initialize solutions with specific low and high.
 ```python
+import psoco
 def objective(x):
     '''create objectives based on inputs x as 2D array'''
     return (x[:, 0] - 2) ** 2 + (x[:, 1] - 1) ** 2 
@@ -37,9 +38,9 @@ def constraints3(x):
 constraints = [constraints1, constraints2, constraints3]
 num_runs = 10
 for _ in range(num_runs):
-    psoco = PSOCO(sol_size=2, fitness=objective, constraints=constraints)
-    psoco.init_Population(low=0, high=1)
-    psoco.solve()
+    pso = psoco.PSOCO(sol_size=2, fitness=objective, constraints=constraints)
+    pso.init_Population(low=0, high=1) # x并集的上下限，默认为0和1
+    pso.solve()
     # best solutions
     x = psoco.gbest.reshape((1, -1))
 ```
