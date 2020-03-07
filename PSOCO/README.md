@@ -19,26 +19,37 @@ Transform constraints, it becomes:
 Note: In order to faster search optimal solutions, please initialize solutions with specific low and high.
 ```python
 import psoco
+import math 
+
 def objective(x):
     '''create objectives based on inputs x as 2D array'''
     return (x[:, 0] - 2) ** 2 + (x[:, 1] - 1) ** 2 
+
 
 def constraints1(x):
     '''create constraint1 based on inputs x as 2D array'''
     return x[:, 0] - 2 * x[:, 1] + 1 
 
+
 def constraints2(x):
     '''create constraint2 based on inputs x as 2D array'''
     return - (x[:, 0] - 2 * x[:, 1] + 1)
 
+
 def constraints3(x):
     '''create constraint3 based on inputs x as 2D array'''
     return x[:, 0] ** 2 / 4. + x[:, 1] ** 2 - 1
+
+def new_penalty_func(k):
+    '''Easy Problem can use \sqrt{k}'''
+    return math.sqrt(k)
     
 constraints = [constraints1, constraints2, constraints3]
 num_runs = 10
+# random parameters lead to variations, so run several time to get mean
 for _ in range(num_runs):
     pso = psoco.PSOCO(sol_size=2, fitness=objective, constraints=constraints)
+    pso.h = new_penalty_func
     pso.init_Population(low=0, high=1) # x并集的上下限，默认为0和1
     pso.solve()
     # best solutions
