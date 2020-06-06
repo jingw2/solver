@@ -53,7 +53,7 @@ for _ in range(num_runs):
     pso.init_Population(low=0, high=1) # x并集的上下限，默认为0和1
     pso.solve()
     # best solutions
-    x = psoco.gbest.reshape((1, -1))
+    x = pso.gbest.reshape((1, -1))
 ```
 ### Reference
 * [Particle Swarm Optimization Method for
