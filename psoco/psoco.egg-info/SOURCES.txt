@@ -1,0 +1,8 @@
+README.md
+setup.py
+psoco/__init__.py
+psoco/psoco.py
+psoco.egg-info/PKG-INFO
+psoco.egg-info/SOURCES.txt
+psoco.egg-info/dependency_links.txt
+psoco.egg-info/top_level.txt

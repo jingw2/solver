@@ -1,0 +1,11 @@
+Metadata-Version: 1.2
+Name: psoco
+Version: 0.0.1
+Summary: partical swarm optimization constraint optimization solver
+Home-page: https://github.com/jingw2/solver/tree/master/psoco
+Author: Jing Wang
+Author-email: jingw2@foxmail.com
+License: MIT
+Description: UNKNOWN
+Platform: UNKNOWN
+Requires-Python: >=3.6
