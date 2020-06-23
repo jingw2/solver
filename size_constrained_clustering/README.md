@@ -36,6 +36,6 @@ Approach](http://web.eecs.umich.edu/~mayankb/docs/ClusterCap.pdf)
 
 ### TO DO
 * [ ] Shrinkage Clustering
-* [ ] Clustering with equal size
-* [ ] Modified Kmeans clustering
+* [X] Clustering with equal size
+* [X] Modified Kmeans clustering
 * [ ] Size constraint API
