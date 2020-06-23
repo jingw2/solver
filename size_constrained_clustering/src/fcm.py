@@ -35,7 +35,7 @@ class FCM(base.Base):
         self.m = m 
         self.epsilon = epsilon
         self.random_state = random_state
-        self.u, self.centers = None, None
+        self.u, self.cluster_centers_ = None, None
 
     def fit(self, X):
         '''
@@ -55,12 +55,14 @@ class FCM(base.Base):
         while True:
             last_u = self.u.copy()
             # update centers
-            self.centers = self.update_centers(X) 
+            self.cluster_centers_ = self.update_centers(X) 
             # update membership
-            self.u = self.predict(X)
+            self.u = self.update_membership(X)
             if norm(self.u - last_u) < self.epsilon or itr >= self.max_iters:
                 break 
             itr += 1
+        
+        self.labels_ = np.argmin(self.u, axis=1)
 
     def update_centers(self, X):
         '''
@@ -70,16 +72,21 @@ class FCM(base.Base):
         centers = (X.T.dot(um)).T / np.sum(um, axis=0).reshape((-1, 1))
         return centers
 
-    def predict(self, X):
+    def update_membership(self, X):
         power = 2. / (self.m - 1)
         n_samples, n_dimensions = X.shape
-        dist = self.distance_func(X, self.centers)
+        dist = self.distance_func(X, self.cluster_centers_)
         dist = np.power(dist, power)
         u = dist * np.sum(1. / dist, axis=1).reshape((-1, 1))
         u = 1. / u
         # normalize
         u /= np.sum(u, axis=1).reshape((-1, 1))
         return u
+    
+    def predict(self, X):
+        u = self.update_membership(X)
+        labels = np.argmin(u, axis=1)
+        return labels
 
 if __name__ == "__main__":
     from sklearn.datasets import make_blobs
@@ -98,8 +105,8 @@ if __name__ == "__main__":
     fcm = FCM(n_bins, distance_func=distance_func)
     fcm.fit(X)
 
-    fcm_centers = fcm.centers
-    fcm_labels = fcm.u.argmax(axis=1)
+    fcm_centers = fcm.cluster_centers_
+    fcm_labels = fcm.labels_
 
 
     # plot result
