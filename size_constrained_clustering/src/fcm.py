@@ -12,6 +12,10 @@
 from scipy.spatial.distance import cdist
 import numpy as np 
 from scipy.linalg import norm
+import sys 
+import os 
+path = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(path)
 import base
 
 class FCM(base.Base):
@@ -32,6 +36,7 @@ class FCM(base.Base):
         '''
         super(FCM, self).__init__(n_clusters, max_iters, distance_func)
         assert m > 1
+        assert epsilon > 0
         self.m = m 
         self.epsilon = epsilon
         self.random_state = random_state
@@ -43,7 +48,6 @@ class FCM(base.Base):
             X (array like): shape is (n_samples, n_dimensions)
         '''
         np.random.seed(self.random_state)
-        assert self.n_clusters >= 1 
         n_samples, n_dimensions = X.shape
 
         # initialize mu 
@@ -62,7 +66,7 @@ class FCM(base.Base):
                 break 
             itr += 1
         
-        self.labels_ = np.argmin(self.u, axis=1)
+        self.labels_ = np.argmax(self.u, axis=1)
 
     def update_centers(self, X):
         '''
@@ -85,7 +89,7 @@ class FCM(base.Base):
     
     def predict(self, X):
         u = self.update_membership(X)
-        labels = np.argmin(u, axis=1)
+        labels = np.argmax(u, axis=1)
         return labels
 
 if __name__ == "__main__":
@@ -100,14 +104,13 @@ if __name__ == "__main__":
     X, _ = make_blobs(n_samples=n_samples, n_features=2, cluster_std=1.0,
                     centers=centers, shuffle=False, random_state=42)
 
-    X = np.radians(X)
-    distance_func = haversine_distances
-    fcm = FCM(n_bins, distance_func=distance_func)
+    # X = np.radians(X)
+    # distance_func = haversine_distances
+    fcm = FCM(n_bins)
     fcm.fit(X)
 
     fcm_centers = fcm.cluster_centers_
     fcm_labels = fcm.labels_
-
 
     # plot result
     f, axes = plt.subplots(1, 2, figsize=(11,5))
