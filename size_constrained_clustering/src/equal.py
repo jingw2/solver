@@ -12,13 +12,17 @@
 
 from scipy.spatial.distance import cdist
 import numpy as np 
-from scipy.linalg import norm
 # from sklearn.cluster._k_means import _k_init
-import base
 from sklearn.preprocessing import OneHotEncoder
 import collections
 from k_means_constrained import KMeansConstrained
 import warnings
+
+import sys 
+import os 
+path = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(path)
+import base
 
 class SameSizeKMeansHeuristics(base.Base):
     
@@ -201,7 +205,7 @@ class SameSizeKMeansMinCostFlow(base.Base):
         self.clf = None
 
     def fit(self, X):
-        n_samles, n_features = X.shape
+        n_samples, n_features = X.shape
         minsize = n_samples // self.n_clusters
         maxsize = (n_samples + self.n_clusters - 1) // self.n_clusters
 
@@ -244,4 +248,3 @@ if __name__ == "__main__":
     scatter(X[:, 0], X[:, 1], ax=axes[1], hue=fcm_labels)
     scatter(fcm_centers[:, 0], fcm_centers[:, 1], ax=axes[1], marker="s",s=200)
     plt.show()
-
