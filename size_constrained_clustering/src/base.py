@@ -23,6 +23,10 @@ class Base(object):
             max_iters (int): maximum iterations
             distance_func (callable function): distance function callback
         '''
+        assert isinstance(n_clusters, int)
+        assert n_clusters >= 1
+        assert isinstance(max_iters, int)
+        assert max_iters >= 1
         self.n_clusters = n_clusters 
         self.max_iters = max_iters
         if distance_func is not None and not callable(distance_func):
