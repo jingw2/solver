@@ -4,7 +4,7 @@ Implementation of Size Constrained Clustering.
 Size constrained clustering can be treated as an optimization problem. Details could be found in a set of reference paper.
 
 ### Installation
-Requirement Python $\geq$ 3.6
+Requirement Python >= 3.6
 * Method 1: install from PyPI
   
 * Method 2: Download Source Files, and run the following code in terminal
