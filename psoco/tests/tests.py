@@ -5,7 +5,7 @@ import os
 import numpy as np 
 dirpath = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(dirpath)
-from psoco import psoco
+import psoco
 import math 
 
 def objective(x):

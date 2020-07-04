@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: psoco
-Version: 0.0.0
+Version: 0.0.8
 Summary: partical swarm optimization constraint optimization solver
 Home-page: https://github.com/jingw2/solver/tree/master/psoco
 Author: Jing Wang
