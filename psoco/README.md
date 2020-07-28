@@ -1,5 +1,6 @@
 ## Particle Swarm Optimization Constraint Optimization Solver
 [![PyPI version](https://badge.fury.io/py/psoco.svg)](https://badge.fury.io/py/psoco)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/psoco)
 ### Arguments
 |Name |Type|Default Value|
 |-----|----|-------------|
