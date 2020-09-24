@@ -7,7 +7,7 @@
 * 实现Forecasting Principles and Practice中的最优调和方法, 章节10.7
 * 参考代码：https://github.com/carlomazzaferro/scikit-hts/blob/master/hts/functions.py
 '''
-from collections import OrderedDict
+import numpy as np
 from data_structure import HierarchyTree
 
 def get_summing_matrix(tree: HierarchyTree):
@@ -79,8 +79,7 @@ def optimal_reconcilation(forecasts: dict, tree: HierarchyTree, method="ols",
     return y
 
 
-if __name__ == "__main__":
-    import numpy as np 
+if __name__ == "__main__": 
     stores = ["京东"]
     series = ["京东_红胖子", "京东_黑管", "京东_小钢笔"]
     skus = ["京东_红胖子_sku1", "京东_红胖子_sku2", 
