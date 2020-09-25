@@ -9,6 +9,8 @@ Hierarchical Forecast Reconcilation
 * 参考代码：https://github.com/carlomazzaferro/scikit-hts/blob/master/hts/functions.py
 '''
 from data_structure import HierarchyTree
+import pandas as pd
+import numpy as np 
 
 def get_summing_matrix(tree: HierarchyTree):
     '''
@@ -32,39 +34,25 @@ def get_summing_matrix(tree: HierarchyTree):
     dfs(mat, tree.root)
     return mat
 
-def dict_to_array(forecasts: dict, nodenames: list):
-    '''
-    dict to array
-        make sure any of key in nodenames in forecasts
-    '''
-    y = []
-    t = 1 
-    num_nodes = len(nodenames)
-    for idx, node in enumerate(nodenames):
-        assert node in forecasts
-        y.append(forecasts[node])
-        t = len(forecasts[node])
-    y = np.asarray(y).reshape((num_nodes, t))
-    return y 
-
-def top_down(forecasts: dict, tree: HierarchyTree):
+def top_down(forecasts: dict, tree: HierarchyTree, method="avg_hist_prop"):
     '''
     Top down method
     从上至下拆分
-        1. 按照历史比例
-        2. 按照历史平均比例
-        3. 按预测比例
+        1. 按照历史比例: Average Historical Proportions, avg_hist_prop
+            p_j = 1 / T * \sum_{t=1}^T y_{j, t} / y_t
+        2. 按照历史平均比例: Proportions of Historical Average, prop_hist_avg
+        3. 按预测比例: Forecast Proportions, forecast_prop
     '''
     raise NotImplementedError
 
-def bottom_up(forecasts: dict, tree: HierarchyTree):
+def bottom_up(forecasts: pd.DataFrame, tree: HierarchyTree):
     '''
     自下而上汇总
         y_tilde = S y_hat_bottom
     '''
     nodenames = list(tree.nodes.keys())
     S = get_summing_matrix(tree)
-    ypred = dict_to_array(forecasts, nodenames)
+    ypred = df_to_array(forecasts, nodenames)
     num_bottom_level = tree.num_bottom_level
     bottom_pred = ypred[-num_bottom_level:, :]
     y = S @ bottom_pred
@@ -73,8 +61,8 @@ def bottom_up(forecasts: dict, tree: HierarchyTree):
         results[name] = y[idx]
     return results
 
-def optimal_reconcilation(forecasts: dict, tree: HierarchyTree, method="ols", 
-        residuals: dict = None):
+def optimal_reconcilation(forecasts: pd.DataFrame, tree: HierarchyTree, method="ols", 
+        residuals: pd.DataFrame = None):
     '''
     Optimal Reconcilation Algorithm：
     最优调和算法
@@ -98,13 +86,17 @@ def optimal_reconcilation(forecasts: dict, tree: HierarchyTree, method="ols",
     '''
     nodenames = list(tree.nodes.keys())
     num_nodes = tree.num_nodes
+    for name in nodenames:
+        assert name in forecasts.columns
+    dates = forecasts.index.tolist()
+
     S = get_summing_matrix(tree)
-    ypred = dict_to_array(forecasts, nodenames)
+    ypred = df_to_array(forecasts, nodenames)
     kh = 1 
     if method == "ols":
         Wh = np.eye(num_nodes) * kh 
     if method == "wls":
-        residuals = dict_to_array(residuals, nodenames)
+        residuals = df_to_array(residuals, nodenames)
         What1 = residuals @ residuals.T 
         diag = np.eye(num_nodes) * np.diag(What1)
         Wh = kh * diag
@@ -112,7 +104,7 @@ def optimal_reconcilation(forecasts: dict, tree: HierarchyTree, method="ols",
         diag = np.eye(num_nodes) * np.diag(np.sum(S, axis=1))
         Wh = kh * diag
     if method == "mint":
-        residuals = dict_to_array(residuals, nodenames)
+        residuals = df_to_array(residuals, nodenames)
         cov = np.cov(residuals)
         diag = np.eye(num_nodes) * np.diag(cov)
         Wh = kh * diag
@@ -120,54 +112,92 @@ def optimal_reconcilation(forecasts: dict, tree: HierarchyTree, method="ols",
     coef = S @ (np.linalg.inv(S.T @ inv_Wh @ S)) @ S.T @ inv_Wh
     y = coef @ ypred
 
-    results = {}
-    for idx, name in enumerate(nodenames):
-        results[name] = y[idx]
+    results = pd.DataFrame(y, columns=dates)
+    results["id"] = nodenames 
     return results
 
+def df_to_array(forecasts, nodenames):
+    '''
+    DataFrame to array based on node names input
 
-if __name__ == "__main__":
-    import numpy as np 
-    stores = ["京东"]
-    series = ["京东_红胖子", "京东_黑管", "京东_小钢笔"]
-    skus = ["京东_红胖子_sku1", "京东_红胖子_sku2", 
-        "京东_黑管_sku1", "京东_黑管_sku2",
-        "京东_小钢笔_sku1", "京东_小钢笔_sku2"]
-    total = {"root": series}
-    # series_h = {k: [v for v in series if v.startswith(k)] for k in stores}
+    Usage:
+
+        DataFrame like this: 
+
+        | all | series1 | series_2 | series1_sku1 | series2_sku1 |
+        | 1000| 200     | 300      | 100          | 250          |
+    
+        to Array:
+            array([1000, 200, 300, 100, 250]).T
+    '''
+    forecasts = forecasts[nodenames]
+    arr = np.asarray(forecasts).T
+    return arr
+
+def example():
+    data = pd.read_csv("reconcilation_test.csv")
+    series = data.loc[~data["series"].isna() & data["sku"].isna(), 
+        ["series"]].drop_duplicates()
+    series = series["series"].tolist()
+    series = [s for s in series if s != "all"]
+    skus = data.loc[~data["sku"].isna(), ["series", "sku"]].drop_duplicates()
+    skus = (skus["series"] + "_" + skus["sku"]).tolist()
+    
+    # 因为stores就1个，就作为root
+    total = {"root": series} # root对应层，是第一层
     skus_h = {k: [v for v in skus if v.startswith(k)] for k in series}
     hierarchy = {**total, **skus_h}
-    
+
     tree = HierarchyTree.from_nodes(hierarchy)
+
+    def clear_ids(ids):
+        cols = []
+        for c in ids:
+            if isinstance(c, tuple) or isinstance(c, list):
+                cols.append(c[1])
+            else:
+                cols.append(c)
+        new_cols = []
+        for c in cols:
+            if c.endswith("_"):
+                if c == "all_":
+                    new_cols.append("root")
+                else:
+                    new_cols.append(c[:-1])
+                continue
+            new_cols.append(c)
+        return new_cols
     
-    forecasts = {
-        "root": [10000, 10000],
-        "京东_红胖子": [3000, 2000],
-        "京东_黑管": [5000, 4000],
-        "京东_小钢笔": [3000, 2000],
-        "京东_红胖子_sku1": [1200, 1000],
-        "京东_红胖子_sku2": [1500, 2000],
-        "京东_黑管_sku1": [3600, 2000],
-        "京东_黑管_sku2": [2000, 3000],
-        "京东_小钢笔_sku1": [1000, 500],
-        "京东_小钢笔_sku2": [1000, 2000],
-    }
+    def mape(y, ypred):
+        y = np.array(y).ravel()
+        ypred = np.array(ypred).ravel()
+        return np.abs(y-ypred) / y
 
-    residuals = {
-        "root": [10, 1000],
-        "京东_红胖子": [150, 10],
-        "京东_黑管": [100, 500],
-        "京东_小钢笔": [300, 400],
-        "京东_红胖子_sku1": [120, 100],
-        "京东_红胖子_sku2": [150, 250],
-        "京东_黑管_sku1": [360, 140],
-        "京东_黑管_sku2": [200, 100],
-        "京东_小钢笔_sku1": [100, 500],
-        "京东_小钢笔_sku2": [100, 400],
-    }
-
-    # res = optimal_reconcilation(forecasts, tree, method="wls", residuals=residuals)
+    val_data = data[data["flag"] == "val"]
+    val_data.fillna("", inplace=True)
+    val_data.loc[:, "id"] = val_data.loc[:, "series"] + "_" + val_data.loc[:, "sku"]
+    val_data["residual"] = mape(val_data["y"], val_data["ypred"])
+    forecasts = pd.pivot_table(val_data, values=["ypred"], index=["date"], columns=["id"])
+    ytrue = pd.pivot_table(val_data, values=["y"], index=["date"], columns=["id"])
+    residuals = pd.pivot_table(val_data, values=["residual"], index=["date"], columns=["id"])
+    forecasts.columns = clear_ids(forecasts.columns)
+    residuals.columns = clear_ids(residuals.columns)
+    val_data["id"] = clear_ids(val_data["id"])
+    res = optimal_reconcilation(forecasts, tree, method="mint", residuals=residuals)
     
-    res = bottom_up(forecasts, tree)
+    # rearrange and show comparison between origin and reconcilated
+    cols = [c for c in res.columns.tolist() if c != "id"]
+    res = pd.melt(res, id_vars=["id"], value_vars=cols)
+    res.columns = ["id", "date", "ypred_new"]
+    res = pd.merge(res, val_data[["id", "y", "ypred"]], how="left", on="id")
+    res.loc[res["id"] == "root", "id"] = "all"
+    res["mape"] = mape(res["y"], res["ypred"])
+    res["mape_new"] = mape(res["y"], res["ypred_new"])
+    res[["series", "sku"]] = res["id"].str.split("_", expand=True)
+    res.drop(columns=["id"], inplace=True)
+    
+    return res 
 
-    print(res)
+if __name__ == "__main__":
+    res = example()
+    print("result: ", res)
