@@ -13,11 +13,6 @@ import period_detect
 from joblib import Parallel, delayed,  parallel_backend
 import pandas as pd 
 
-from pyecharts.components import Table
-from pyecharts.options import ComponentTitleOpts
-from pyecharts.charts import Bar, Line, Grid
-from pyecharts import options as opts
-
 class Forecastability:
 
     def __init__(self, data, tm="date"):
@@ -168,56 +163,65 @@ class Forecastability:
         file = open("{}.html".format(filename), "w")
 
         # 频率和稳定性表
-        merge_df = pd.merge(self.freq, self.stable, on="sku_code", how="inner")
-        high_freq = merge_df[merge_df["frequency"] == "高频"]
-        high_stable = len(high_freq[high_freq["stability"] == "稳定"])
-        high_unstable = len(high_freq[high_freq["stability"] == "不稳定"])
-        high_xunstable = len(high_freq[high_freq["stability"] == "极端不稳定"])
+        if self.freq is not None and self.stable is not None:
+            merge_df = pd.merge(self.freq, self.stable, on="sku_code", how="inner")
+            high_freq = merge_df[merge_df["frequency"] == "高频"]
+            high_stable = len(high_freq[high_freq["stability"] == "稳定"])
+            high_unstable = len(high_freq[high_freq["stability"] == "不稳定"])
+            high_xunstable = len(high_freq[high_freq["stability"] == "极端不稳定"])
 
-        low_freq = merge_df[merge_df["frequency"] == "低频"]
-        low_stable = len(low_freq[low_freq["stability"] == "稳定"])
-        low_unstable = len(low_freq[low_freq["stability"] == "不稳定"])
-        low_xunstable = len(low_freq[low_freq["stability"] == "极端不稳定"])
+            low_freq = merge_df[merge_df["frequency"] == "低频"]
+            low_stable = len(low_freq[low_freq["stability"] == "稳定"])
+            low_unstable = len(low_freq[low_freq["stability"] == "不稳定"])
+            low_xunstable = len(low_freq[low_freq["stability"] == "极端不稳定"])
 
-        xlow_freq = merge_df[merge_df["frequency"] == "极端低频"]
-        xlow_stable = len(xlow_freq[xlow_freq["stability"] == "稳定"])
-        xlow_unstable = len(xlow_freq[xlow_freq["stability"] == "不稳定"])
-        xlow_xunstable = len(xlow_freq[xlow_freq["stability"] == "极端不稳定"])
+            xlow_freq = merge_df[merge_df["frequency"] == "极端低频"]
+            xlow_stable = len(xlow_freq[xlow_freq["stability"] == "稳定"])
+            xlow_unstable = len(xlow_freq[xlow_freq["stability"] == "不稳定"])
+            xlow_xunstable = len(xlow_freq[xlow_freq["stability"] == "极端不稳定"])
 
-        n_stable = len(merge_df[merge_df["stability"] == "稳定"])
-        n_unstable = len(merge_df[merge_df["stability"] == "不稳定"])
-        n_xunstable = len(merge_df[merge_df["stability"] == "极端不稳定"])
+            n_stable = len(merge_df[merge_df["stability"] == "稳定"])
+            n_unstable = len(merge_df[merge_df["stability"] == "不稳定"])
+            n_xunstable = len(merge_df[merge_df["stability"] == "极端不稳定"])
 
-        start = '''<!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="UTF-8">
-                <title>Forecastability Report</title>
-                    <!-- including ECharts file -->
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.6.0/echarts-en.min.js"></script>
-            </head>
-            <body> '''
-        headers = ["频率/稳定性", "稳定", "不稳定", "极端不稳定", "总计"]
-        rows = [
-            ["高频", high_stable, high_unstable, high_xunstable, len(high_freq)],
-            ["低频", low_stable, low_unstable, low_xunstable, len(low_freq)],
-            ["极端低频", xlow_stable, xlow_unstable, xlow_xunstable, len(xlow_freq)],
-            ["总计", n_stable, n_unstable, n_xunstable, len(merge_df)]
-        ]
-        freq_stable_table = util.get_table(headers, rows, "频率和稳定性统计表")
+            start = '''<!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Forecastability Report</title>
+                        <!-- including ECharts file -->
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.6.0/echarts-en.min.js"></script>
+                </head>
+                <body> '''
+            headers = ["频率/稳定性", "稳定", "不稳定", "极端不稳定", "总计"]
+            rows = [
+                ["高频", high_stable, high_unstable, high_xunstable, len(high_freq)],
+                ["低频", low_stable, low_unstable, low_xunstable, len(low_freq)],
+                ["极端低频", xlow_stable, xlow_unstable, xlow_xunstable, len(xlow_freq)],
+                ["总计", n_stable, n_unstable, n_xunstable, len(merge_df)]
+            ]
+            freq_stable_table = util.get_table(headers, rows, "频率和稳定性统计表")
+        else:
+            freq_stable_table = ""
 
         # 周期性表
-        headers = ["SKU编码", "周期性结果"]
-        rows = self.period.values.tolist()
-        period_table = util.get_table(headers, rows, "周期性识别结果表")
+        if self.period is not None:
+            headers = ["SKU编码", "周期性结果"]
+            rows = self.period.values.tolist()
+            period_table = util.get_table(headers, rows, "周期性识别结果表")
+        else:
+            period_table = ""
         
         end = '</body></html>'
 
         # 单一客户占比图
-        x = self.single_customer["n_weeks"].tolist()
-        y = [round(s * 100, 2) for s in self.single_customer["sku_percent"].tolist()]
-        line_charts = util.get_line_charts(x, y, title="单一客户占比超过50%SKU比例和SKU频率图", 
-            xname="有需求的周数", yname="单一客户占比超过50%的SKU比例")
+        if self.single_customer is not None:
+            x = self.single_customer["n_weeks"].tolist()
+            y = [round(s * 100, 2) for s in self.single_customer["sku_percent"].tolist()]
+            line_charts = util.get_line_charts(x, y, title="单一客户占比超过50%SKU比例和SKU频率图", 
+                xname="有需求的周数", yname="单一客户占比超过50%的SKU比例")
+        else:
+            line_charts = ""
 
         file.write(start + freq_stable_table + period_table + line_charts + end)
         file.close()
