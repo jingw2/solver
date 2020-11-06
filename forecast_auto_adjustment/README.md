@@ -68,6 +68,8 @@ $$
 该方法应用：$e_{t-l} = y_{t-l} - \hat{y}_{t-l}$, $\tilde{y}_t = \hat{y}_t + e_{t-l} $，$\tilde{y}_t$为修正后的预测结果。在实际预测中会出现两种情况，造成看起来预测偏移延迟的情况。
 
 ![err1](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/error_adjust1.png)
+
+
 ![err2](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/error_adjust2.png)
 
 
@@ -95,22 +97,19 @@ $$
 
 示意图：
 
-<figure>
-<img src="/Users/01370956/git/solver-master/forecast_auto_adjustment/images/alibaba_stock_normal_forecast.png" alt="alibaba_stock_adjust_trendy_forecast" style="zoom:40%;" />
-  <img src="/Users/01370956/git/solver-master/forecast_auto_adjustment/images/alibaba_stock_adjust_forecast.png" alt="alibaba_stock_adjust_forecast" style="zoom:40%;" />
-<img src="/Users/01370956/git/solver-master/forecast_auto_adjustment/images/alibaba_stock_adjust_trendy_forecast.png" alt="alibaba_stock_adjust_trendy_forecast" style="zoom:40%;" /></figure>
+![ali_normal](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/alibaba_stock_normal_forecast.png) 
+![ali_adjust](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/alibaba_stock_adjust_forecast.png)
+![ali_adjust_trendy](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/alibaba_stock_adjust_trendy_forecast.png)
 
-<figure>
-<img src="/Users/01370956/git/solver-master/forecast_auto_adjustment/images/amazon_stock_normal_forecast.png" alt="alibaba_stock_adjust_trendy_forecast" style="zoom:40%;" />
-  <img src="/Users/01370956/git/solver-master/forecast_auto_adjustment/images/amazon_stock_adjust_forecast.png" alt="alibaba_stock_adjust_forecast" style="zoom:40%;" />
-<img src="/Users/01370956/git/solver-master/forecast_auto_adjustment/images/amazon_stock_adjust_trendy_forecast.png" alt="alibaba_stock_adjust_trendy_forecast" style="zoom:40%;" /></figure>
+![google_normal](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/google_stock_normal_forecast.png) 
+![google_adjust](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/google_stock_adjust_forecast.png)
+![google_adjust_trendy](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/google_stock_adjust_trendy_forecast.png)
 
-<figure>
-<img src="/Users/01370956/git/solver-master/forecast_auto_adjustment/images/google_stock_normal_forecast.png" alt="alibaba_stock_adjust_trendy_forecast" style="zoom:40%;" />
-  <img src="/Users/01370956/git/solver-master/forecast_auto_adjustment/images/google_stock_adjust_forecast.png" alt="alibaba_stock_adjust_forecast" style="zoom:40%;" />
-<img src="/Users/01370956/git/solver-master/forecast_auto_adjustment/images/google_stock_adjust_trendy_forecast.png" alt="alibaba_stock_adjust_trendy_forecast" style="zoom:40%;" /></figure>
+![amazon_normal](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/amazon_stock_normal_forecast.png) 
+![amazon_adjust](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/amazon_stock_adjust_forecast.png)
+![amazon_adjust_trendy](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/amazon_stock_adjust_trendy_forecast.png)
 
-<figure>
-<img src="/Users/01370956/git/solver-master/forecast_auto_adjustment/images/jd_stock_normal_forecast.png" alt="alibaba_stock_adjust_trendy_forecast" style="zoom:40%;" />
-  <img src="/Users/01370956/git/solver-master/forecast_auto_adjustment/images/jd_stock_adjust_forecast.png" alt="alibaba_stock_adjust_forecast" style="zoom:40%;" />
-<img src="/Users/01370956/git/solver-master/forecast_auto_adjustment/images/jd_stock_adjust_trendy_forecast.png" alt="alibaba_stock_adjust_trendy_forecast" style="zoom:40%;" /></figure>
+![jd_normal](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/jd_stock_normal_forecast.png) 
+![jd_adjust](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/jd_stock_adjust_forecast.png)
+![jd_adjust_trendy](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/jd_stock_adjust_trendy_forecast.png)
+
