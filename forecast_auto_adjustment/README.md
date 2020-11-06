@@ -67,10 +67,9 @@ $$
 
 该方法应用：$e_{t-l} = y_{t-l} - \hat{y}_{t-l}$, $\tilde{y}_t = \hat{y}_t + e_{t-l} $，$\tilde{y}_t$为修正后的预测结果。在实际预测中会出现两种情况，造成看起来预测偏移延迟的情况。
 
-![alt text]("https://github.com/jingw2/solver/master/forecast_auto_adjustment/images/error_adjust1.png")
-![alt text]("https://github.com/jingw2/solver/master/forecast_auto_adjustment/images/error_adjust2.png")
-<figure><img src="https://github.com/jingw2/solver/master/forecast_auto_adjustment/images/error_adjust1.png" alt="image-20201106143949164" style="zoom:50%;" />
-<img src="https://github.com/jingw2/solver/master/forecast_auto_adjustment/images/error_adjust2.png" alt="image-20201106144305474" style="zoom:50%;" /></figure>
+![alt text](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/error_adjust1.png)
+![alt text](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/error_adjust2.png)
+
 
 总体准确率会比后面不低估也不高估更高，因为出现误差抵消。
 
