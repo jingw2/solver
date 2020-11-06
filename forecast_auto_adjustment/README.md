@@ -31,13 +31,17 @@ Let $U$ be the event of model underestimation , $O$ be the event of model overes
 Proof:
 
 我们来证明这一假设是有一定合理性的。假如我们选用线性模型开始$\hat{y} = X\theta$。
+
+
 $$
 \hat{y}_{t-l} = X_{t-l} \theta_{t-l} \\
 \theta_{t-l} + \Delta \theta = \theta_t \\
 \Delta \theta = -\alpha \frac{d loss_{t-l}}{d X_{t-l}} \\
 \hat{y}_t = X_t \theta_t = X_t (\theta_{t-l} + \Delta \theta)
 $$
+
 假设有个完美的模型$y = X\theta_p$，$loss = |y - \hat{y}|$。如果$\hat{y}_{t-l} \leq y_{t-l}$, 那么$\theta_{t-l} \leq \theta_p$ （如果$X_{t-l} > 0$，表示$X_{t-l}$是正定矩阵），前面低估，我们要证明后面也很可能低估。
+
 $$
 \begin{align}
 \Delta \theta &= - \alpha \frac{d(y_{t-l} - X_{t-l}\theta_{t-l})}{dX_{t-l}} = \alpha \theta_{t-l} \\
@@ -45,21 +49,28 @@ $$
 \ \ \text{如果$X_t>0$}
 \end{align} 
 $$
+
+
 如果$\hat{y_{t-l}} > y_{t-l}$，即$\theta_{t-l} > \theta_p$。
+
+
 $$
 \begin{align}
 \Delta \theta &= - \alpha \theta_{t-l} \\
 \hat{y}_t &= X_t(1 - \alpha)\theta_{t-l} > X_t(1 - \alpha)\theta_p = (1 - \alpha)y_t 
 \end{align}
 $$
+
 由于$\alpha$比较小，我们可以近似不等式成立。$P(\hat{y_t} \leq y_t | \hat{y}_{t-l} \leq y_{t-l}) \approx 1$ , $P(\hat{y_t} > y_t | \hat{y}_{t-l} > y_{t-l}) \approx 1$。$\alpha$越小，也就是梯度更新越慢，假设越有可能成立。上述基于线性模型的情况下成立，或者当$l$相对较小的时候，我们可以认为$y_{t-l}$和$y_t$之间的接近线性的。但该假设还不能推广到更通用的情况。
 
 **当特征矩阵$X_t$是正定矩阵，且$l$较小的时候，假设大概率成立。**
 
 该方法应用：$e_{t-l} = y_{t-l} - \hat{y}_{t-l}$, $\tilde{y}_t = \hat{y}_t + e_{t-l} $，$\tilde{y}_t$为修正后的预测结果。在实际预测中会出现两种情况，造成看起来预测偏移延迟的情况。
 
-<figure><img src="/Users/01370956/Library/Application Support/typora-user-images/image-20201106143949164.png" alt="image-20201106143949164" style="zoom:50%;" />
-<img src="/Users/01370956/Library/Application Support/typora-user-images/image-20201106144305474.png" alt="image-20201106144305474" style="zoom:50%;" /></figure>
+![alt text]("https://github.com/jingw2/solver/master/forecast_auto_adjustment/images/error_adjust1.png")
+![alt text]("https://github.com/jingw2/solver/master/forecast_auto_adjustment/images/error_adjust2.png")
+<figure><img src="https://github.com/jingw2/solver/master/forecast_auto_adjustment/images/error_adjust1.png" alt="image-20201106143949164" style="zoom:50%;" />
+<img src="https://github.com/jingw2/solver/master/forecast_auto_adjustment/images/error_adjust2.png" alt="image-20201106144305474" style="zoom:50%;" /></figure>
 
 总体准确率会比后面不低估也不高估更高，因为出现误差抵消。
 
