@@ -68,8 +68,8 @@ $$
 该方法应用：$e_{t-l} = y_{t-l} - \hat{y}_{t-l}$, $\tilde{y}_t = \hat{y}_t + e_{t-l} $，$\tilde{y}_t$为修正后的预测结果。在实际预测中会出现两种情况，造成看起来预测偏移延迟的情况。
 
 <p float="left">
-<img src="https://raw.githubusercontent.com/jingw2/solver/master/forecast_auto_adjustment/images/error_adjust1.png" alt="image-20201106143949164" style="zoom:10%;" width="400" height="300" />
-<img src="https://raw.githubusercontent.com/jingw2/solver/master/forecast_auto_adjustment/images/error_adjust2.png" alt="image-20201106144305474" style="zoom:10%;"  width="400" height="300"/>
+<img src="https://raw.githubusercontent.com/jingw2/solver/master/forecast_auto_adjustment/images/error_adjust_s1.png" alt="image-20201106143949164" style="zoom:10%;" width="300" height="200" />
+<img src="https://raw.githubusercontent.com/jingw2/solver/master/forecast_auto_adjustment/images/error_adjust_s2.png" alt="image-20201106144305474" style="zoom:10%;"  width="300" height="200"/>
 </p>
 
 总体准确率会比后面不低估也不高估更高，因为出现误差抵消。
@@ -96,19 +96,26 @@ $$
 
 示意图：
 
-![ali_normal](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/alibaba_stock_normal_forecast.png) 
-![ali_adjust](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/alibaba_stock_adjust_forecast.png)
-![ali_adjust_trendy](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/alibaba_stock_adjust_trendy_forecast.png)
+<p float="left">
+<img src="https://raw.githubusercontent.com/jingw2/solver/master/forecast_auto_adjustment/images/alibaba_stock_normal_forecast.png" alt="image-20201106143949164" style="zoom:10%;" width="300" height="200" />
+<img src="https://raw.githubusercontent.com/jingw2/solver/master/forecast_auto_adjustment/images/alibaba_stock_adjust_forecast.png" alt="image-20201106144305474" style="zoom:10%;"  width="300" height="200"/>
+ <img src="https://raw.githubusercontent.com/jingw2/solver/master/forecast_auto_adjustment/images/alibaba_stock_adjust_trendy_forecast.png" alt="image-20201106144305474" style="zoom:10%;"  width="300" height="200"/>
+</p>
 
-![google_normal](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/google_stock_normal_forecast.png) 
-![google_adjust](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/google_stock_adjust_forecast.png)
-![google_adjust_trendy](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/google_stock_adjust_trendy_forecast.png)
+<p float="left">
+<img src="https://raw.githubusercontent.com/jingw2/solver/master/forecast_auto_adjustment/images/google_stock_normal_forecast.png" alt="image-20201106143949164" style="zoom:10%;" width="300" height="200" />
+<img src="https://raw.githubusercontent.com/jingw2/solver/master/forecast_auto_adjustment/images/google_stock_adjust_forecast.png" alt="image-20201106144305474" style="zoom:10%;"  width="300" height="200"/>
+ <img src="https://raw.githubusercontent.com/jingw2/solver/master/forecast_auto_adjustment/images/google_stock_adjust_trendy_forecast.png" alt="image-20201106144305474" style="zoom:10%;"  width="300" height="200"/>
+</p>
 
-![amazon_normal](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/amazon_stock_normal_forecast.png) 
-![amazon_adjust](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/amazon_stock_adjust_forecast.png)
-![amazon_adjust_trendy](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/amazon_stock_adjust_trendy_forecast.png)
+<p float="left">
+<img src="https://raw.githubusercontent.com/jingw2/solver/master/forecast_auto_adjustment/images/amazon_stock_normal_forecast.png" alt="image-20201106143949164" style="zoom:10%;" width="300" height="200" />
+<img src="https://raw.githubusercontent.com/jingw2/solver/master/forecast_auto_adjustment/images/amazon_stock_adjust_forecast.png" alt="image-20201106144305474" style="zoom:10%;"  width="300" height="200"/>
+ <img src="https://raw.githubusercontent.com/jingw2/solver/master/forecast_auto_adjustment/images/amazon_stock_adjust_trendy_forecast.png" alt="image-20201106144305474" style="zoom:10%;"  width="300" height="200"/>
+</p>
 
-![jd_normal](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/jd_stock_normal_forecast.png) 
-![jd_adjust](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/jd_stock_adjust_forecast.png)
-![jd_adjust_trendy](https://github.com/jingw2/solver/tree/master/forecast_auto_adjustment/images/jd_stock_adjust_trendy_forecast.png)
-
+<p float="left">
+<img src="https://raw.githubusercontent.com/jingw2/solver/master/forecast_auto_adjustment/images/jd_stock_normal_forecast.png" alt="image-20201106143949164" style="zoom:10%;" width="300" height="200" />
+<img src="https://raw.githubusercontent.com/jingw2/solver/master/forecast_auto_adjustment/images/jd_stock_adjust_forecast.png" alt="image-20201106144305474" style="zoom:10%;"  width="300" height="200"/>
+ <img src="https://raw.githubusercontent.com/jingw2/solver/master/forecast_auto_adjustment/images/jd_stock_adjust_trendy_forecast.png" alt="image-20201106144305474" style="zoom:10%;"  width="300" height="200"/>
+</p>
